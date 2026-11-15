@@ -1,0 +1,175 @@
+<!doctype html>
+<html lang="en-US">
+
+<head>
+  <meta charset="utf-8" />
+  <title>KillCore</title>
+  <script src="https://aframe.io/releases/1.6.0/aframe.min.js"></script>
+  <script
+    src="https://cdn.jsdelivr.net/gh/c-frame/aframe-physics-system@v4.2.3/dist/aframe-physics-system.min.js"></script>
+  <style>
+    .a-enter-vr-button {
+      display: none !important;
+    }
+  </style>
+</head>
+
+<body>
+  <!--
+  <audio style="display: none;" autoplay loop><source src="bgmusic.mp3" type="audio/mpeg"></audio>
+  -->
+  <a-scene>
+    <a-assets>
+      <img id="grassTexture" src="grass.png" crossorigin="anonymous"
+        onerror="this.src='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQAAAAEACAMAAABrrFhUAAAAM1BMVEX/Ae0AAAAAAQD+Ae3ZG8r+Ae8lACDZGswmACIoACIoACD+AfEmAB7ZGs8oAB7GKLo4ADA6hL88AAACh0lEQVR4nO3Zi27iMBAF0JSF0GUp7f9/7ZI+gGYJ0C1wXc25EhLEWJo5SsCyuy6beT/b5yGQcP8AAAAINg8AAIA2AFLNA2gV4OCf8eY4AFoGuHXzAAA0CvBQHuCOAQAAAAAAAABkAcpviAAIbo0DaAXg3o0DAACgHYBU8wAAAAAAAACAPED5hRCAIAKAVgASzQMAAKANgFTzAAAAAAAAAIA8QPmFEADH4wA8AgAAFAZINQ8AAAAAAAAAyAOUXwgBcDwOwCMAAEBhgFTzAAAAAAAAAIA8QPmFEADH4wA8AgAAFAZINQ8AAAAAAAAAyAOUXwgBcDwOwCMAAEBhgFTzAAAAAAAAAIA8QPmFEADH4wAAAEgBLD9nvsvp65d+79z855d+lMf7pvu9z/D5cyH7sdVqtVkfFLh9s17326urb8xfbzYvz09DDoSW9003viXO3YpvYx+v4+NfmN8\/\/RmyWMQeQgD/3cD0+IXz2wU41+AVxwG0BbC7fV9fx6u/7ni/XLwm1n93pL7JH7kbjL8D5PrvDssbFzsu/9rj2/TLYO9NAMxbARj/fc32OTk+1fCF838EwOybAKfmtw8w1eD42hTAqfnbPAIAAKANgH8XLrf/3NSPIAAA5QEi2QH8eg8AAADqAXw0H9kaAQAAQBMAi4MAAAAAAAAAAAAAqAQw1FJ6KVwaIBoAAAAAAAAAAAAAAAAAAAAAQASg/IYIAMfjAGyLAwAAAAAAAAAAlAUYaim9FC4NEA0AAAAAAAAAAAAAAAAAAAAAIAJQfkMEgONxALbFAQAAAAAAAAAAygIMtZReCpcGiAYAAAAAAAAAAAAAAAAAAAAAEAEovyECwPE4ANviAABkAP4C9q+rCMeHvkAAAAAASUVORK5CYII='">
+      <img id="wallTexture" src="wall.png" crossorigin="anonymous"
+        onerror="this.src='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQAAAAEACAMAAABrrFhUAAAAM1BMVEX/Ae0AAAAAAQD+Ae3ZG8r+Ae8lACDZGswmACIoACIoACD+AfEmAB7ZGs8oAB7GKLo4ADA6hL88AAACh0lEQVR4nO3Zi27iMBAF0JSF0GUp7f9/7ZI+gGYJ0C1wXc25EhLEWJo5SsCyuy6beT/b5yGQcP8AAAAINg8AAIA2AFLNA2gV4OCf8eY4AFoGuHXzAAA0CvBQHuCOAQAAAAAAAABkAcpviAAIbo0DaAXg3o0DAACgHYBU8wAAAAAAAACAPED5hRCAIAKAVgASzQMAAKANgFTzAAAAAAAAAIA8QPmFEADH4wA8AgAAFAZINQ8AAAAAAAAAyAOUXwgBcDwOwCMAAEBhgFTzAAAAAAAAAIA8QPmFEADH4wA8AgAAFAZINQ8AAAAAAAAAyAOUXwgBcDwOwCMAAEBhgFTzAAAAAAAAAIA8QPmFEADH4wAAAEgBLD9nvsvp65d+79z855d+lMf7pvu9z/D5cyH7sdVqtVkfFLh9s17326urb8xfbzYvz09DDoSW9003viXO3YpvYx+v4+NfmN8\/\/RmyWMQeQgD/3cD0+IXz2wU41+AVxwG0BbC7fV9fx6u/7ni/XLwm1n93pL7JH7kbjL8D5PrvDssbFzsu/9rj2/TLYO9NAMxbARj/fc32OTk+1fCF838EwOybAKfmtw8w1eD42hTAqfnbPAIAAKANgH8XLrf/3NSPIAAA5QEi2QH8eg8AAADqAXw0H9kaAQAAQBMAi4MAAAAAAAAAAAAAqAQw1FJ6KVwaIBoAAAAAAAAAAAAAAAAAAAAAQASg/IYIAMfjAGyLAwAAAAAAAAAAlAUYaim9FC4NEA0AAAAAAAAAAAAAAAAAAAAAIAJQfkMEgONxALbFAQAAAAAAAAAAygIMtZReCpcGiAYAAAAAAAAAAAAAAAAAAAAAEAEovyECwPE4ANviAABkAP4C9q+rCMeHvkAAAAAASUVORK5CYII='">
+    </a-assets>
+    <a-sky color="#0697c2"></a-sky>
+    <a-box class='ground' position="0 -0.1 0" rotation="0 0 0" material="
+	    roughness: 1;6
+	    metalness: 0.8;"
+      scale="500 0.2 500" set-grass-texture static-body></a-box>
+    <a-box class='solid' position="0 0 0" rotation="0 0 0" material="
+	    roughness: 1;
+	    metalness: 0.8;"
+      scale="5 5 5" set-wall-texture static-body></a-box>
+    <a-box class='solid' position="0 0 3.5" rotation="0 0 0" material="
+	    roughness: 1;
+	    metalness: 0.8;"
+      scale="2 2 2" set-wall-texture static-body></a-box>
+    <a-light type="directional" color="white" intensity="0.5" position="-1 1 2"></a-light>
+    <a-light type="ambient" color="white"></a-light>
+    <a-camera id="player" wasd-controls="acceleration: 50" position="-3 1 5" cursor-visible="false" cursor-scale="2"
+      cursor-color="#0095DD" cursor-opacity="0.5" look-controls="pointerLockEnabled: true">
+      <a-entity id="crosshair" position="0 0 -1" rotation="0 0 0" cursor>
+        <a-plane width="0.03" height="0.003" color="white" shader="flat"></a-plane>
+        <a-plane width="0.003" height="0.03" color="white" shader="flat"></a-plane>
+      </a-entity>
+    </a-camera>
+  </a-scene>
+  <img src="armoverlay.png"
+    style="position: fixed; top: 60%; left: 40%; width: 40%; height: 40%; z-index: 9999999999999; pointer-events: none;">
+  <script>
+    let sprinting = false;
+    let crouching = false;
+    let crouchOffset = 0;
+    let fallSpeed = 0;
+    let onGround = true;
+    let speed = 0.04;
+    const fallStrength = -0.01;
+    const jumpPower = 0.2;
+    const groundHeight = 1;
+    let gameRunning = true;
+    let time = 0;
+
+    function loop() {
+      if (!gameRunning) return;
+      
+      const player = document.getElementById("player");
+      const playerPos = player.object3D.position;
+      const playerPos3D = player.object3D.position;
+      const playerLimit = 249;
+
+      playerPos3D.x = Math.max(-playerLimit, Math.min(playerLimit, playerPos3D.x));
+      playerPos3D.z = Math.max(-playerLimit, Math.min(playerLimit, playerPos3D.z));
+      fallSpeed += fallStrength;
+      playerPos.y += fallSpeed;
+      onGround = false;
+      const playerBottom = playerPos3D.y - 0.9;
+      const playerTop = playerPos3D.y + 0.9;
+      const groundY = groundHeight + crouchOffset;
+      if (playerPos3D.y <= groundY) {
+        playerPos3D.y = groundY;
+        fallSpeed = 0;
+        onGround = true;
+      }
+      requestAnimationFrame(loop);
+    }
+    document.addEventListener("keydown", (e) => {
+      const player = document.getElementById("player");
+      if (e.code === "Space" && onGround) {
+        e.preventDefault();
+        fallSpeed = jumpPower;
+        onGround = false;
+      }
+      if (e.key === "Shift" && !sprinting) {
+        player.setAttribute("wasd-controls", "acceleration: 120");
+        sprinting = true;
+      }
+      if (e.key === "Control" && !crouching) {
+        crouching = true;
+        crouchOffset = -0.8;
+        player.setAttribute("wasd-controls", "acceleration: 20");
+      }
+      if ((e.key === "w" || e.key === "s" || e.key === "a" || e.key === "d") && e.ctrlKey) e.preventDefault();
+    });
+    document.addEventListener("keyup", (e) => {
+      const player = document.getElementById("player");
+      if (e.key === "Shift" && sprinting) {
+        player.setAttribute("wasd-controls", "acceleration: 50");
+        sprinting = false;
+      }
+      if (e.key === "Control" && crouching) {
+        crouching = false;
+        crouchOffset += 0.8;
+        player.setAttribute("wasd-controls", `acceleration: ${sprinting ? 120 : 50}`);
+      }
+    })
+
+    function gameOver() {
+      gameRunning = false;
+      let bestTime = localStorage.getItem("bestTime");
+      if (!bestTime) localStorage.setItem("bestTime", time);
+      if (time > bestTime) localStorage.setItem("bestTime", time);
+      document.write(`
+				<title>Game Over</title>
+				<h1 style='text-align: center; color: red;'>
+					<b>GAME OVER</b>
+					<br/>
+					<button onclick="location.reload()">Retry</button>
+				</h1>
+				<br/>
+				<h3 style='text-align: center;'> Your time: 
+					<b>${time} seconds.</b>
+				</h3>
+				<h3 style='text-align: center;'> Your best time: 
+					<b>${localStorage.getItem("bestTime")} seconds.</b>
+				</h3>`);
+    };
+    setTimeout(loop, 1000);
+    setInterval(() => {
+      time++
+    }, 1000);
+    setInterval(() => {
+      speed += 0.0001
+    }, 100);
+    AFRAME.registerComponent('set-wall-texture', {
+      init: function () {
+        this.el.setAttribute('material', {
+          src: '#wallTexture'
+        });
+      }
+    });
+    AFRAME.registerComponent('set-grass-texture', {
+      init: function () {
+        this.el.setAttribute('material', {
+          src: '#grassTexture',
+          repeat: '100 100'
+        });
+      }
+    });
+    AFRAME.registerComponent('always-on-top', {
+      init: function () {
+        this.el.object3D.renderOrder = 999999;
+        this.el.object3D.traverse(function (child) {
+          if (child.isMesh) {
+            child.material.depthTest = false;
+          }
+        });
+      }
+    });
+  </script>
+</body>
+
+</html>
