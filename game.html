@@ -3,13 +3,50 @@
 
 <head>
   <meta charset="utf-8" />
-  <title>KillCore</title>
+  <title>My Game</title>
   <script src="https://aframe.io/releases/1.6.0/aframe.min.js"></script>
   <script
     src="https://cdn.jsdelivr.net/gh/c-frame/aframe-physics-system@v4.2.3/dist/aframe-physics-system.min.js"></script>
   <style>
     .a-enter-vr-button {
       display: none !important;
+    }
+
+    #loading-screen {
+      position: fixed;
+      inset: 0;
+      background: #111;
+      color: white;
+      z-index: 999999999;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      font-family: Arial;
+      transition: opacity 0.6s ease;
+    }
+
+    #loading-screen.hidden {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .loader {
+      width: 45px;
+      height: 45px;
+      border: 5px solid #3a3a3a;
+      border-top-color: #0084ff;
+      border-radius: 30%;
+      animation: spin 0.8s linear infinite;
+    }
+
+    @keyframes spin {
+      75% {
+        transform: rotate(200deg);
+      }
+      100% {
+        transform: rotate(360deg);
+      }
     }
   </style>
 </head>
@@ -28,17 +65,15 @@
     <a-sky color="#0697c2"></a-sky>
     <a-box class='ground' position="0 -0.1 0" rotation="0 0 0" material="
 	    roughness: 1;6
-	    metalness: 0.8;"
-      scale="500 0.2 500" set-grass-texture static-body></a-box>
+	    metalness: 0.8;" scale="500 0.2 500" set-grass-texture static-body></a-box>
     <a-box class='solid' position="0 0 0" rotation="0 0 0" material="
 	    roughness: 1;
-	    metalness: 0.8;"
-      scale="5 5 5" set-wall-texture static-body></a-box>
+	    metalness: 0.8;" scale="5 5 5" set-wall-texture static-body></a-box>
     <a-box class='solid' position="0 0 3.5" rotation="0 0 0" material="
 	    roughness: 1;
-	    metalness: 0.8;"
-      scale="2 2 2" set-wall-texture static-body></a-box>
-    <a-light type="directional" color="white" intensity="0.5" position="-1 1 2"></a-light>
+	    metalness: 0.8;" scale="2 2 2" set-wall-texture static-body></a-box>
+    <a-light type="directional" color="white" intensity="0.8" position="-1 50 2"></a-light>
+    <a-sphere position="-1 50 2" radius="0.5" color="#FCE570" always-on-top></a-sphere>
     <a-light type="ambient" color="white"></a-light>
     <a-camera id="player" wasd-controls="acceleration: 50" position="-3 1 5" cursor-visible="false" cursor-scale="2"
       cursor-color="#0095DD" cursor-opacity="0.5" look-controls="pointerLockEnabled: true">
@@ -49,8 +84,25 @@
     </a-camera>
   </a-scene>
   <img src="armoverlay.png"
-    style="position: fixed; top: 60%; left: 40%; width: 40%; height: 40%; z-index: 9999999999999; pointer-events: none;">
+    style="position: fixed; top: 60%; left: 40%; width: 40%; height: 40%; z-index: 10000; pointer-events: none;">
+  <div id="loading-screen">
+    <div class="loader"></div>
+    <h2>Loading...</h2>
+    <p id="loading-status">Preparing game...</p>
+  </div>
   <script>
+
+    const loadingScreen = document.getElementById("loading-screen");
+    const scene = document.querySelector("a-scene");
+
+    scene.addEventListener("loaded", () => {
+      loadingScreen.classList.add("hidden");
+
+      setTimeout(() => {
+        loadingScreen.remove();
+      }, 600);
+    });
+
     let sprinting = false;
     let crouching = false;
     let crouchOffset = 0;
@@ -65,7 +117,7 @@
 
     function loop() {
       if (!gameRunning) return;
-      
+
       const player = document.getElementById("player");
       const playerPos = player.object3D.position;
       const playerPos3D = player.object3D.position;
@@ -137,7 +189,9 @@
 					<b>${localStorage.getItem("bestTime")} seconds.</b>
 				</h3>`);
     };
-    setTimeout(loop, 1000);
+    scene.addEventListener("loaded", () => {
+      setTimeout(loop, 1000);
+    });
     setInterval(() => {
       time++
     }, 1000);
